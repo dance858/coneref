@@ -83,7 +83,7 @@ jobs:
       PYPI_USER: ${{ secrets.PYPI_USER }}
       PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       DEPLOY: 'True'
-      DEPLOY_PYPI_SOURCE: 'True'
+      DEPLOY_PYPI_SOURCE: 'False'
 
     steps:
 
@@ -95,7 +95,7 @@ jobs:
         shell: bash
         run: |
           echo "PYTHON_SUBVERSION=$(echo $PYTHON_VERSION | cut -c 3-)" >> $GITHUB_ENV
-          echo "DEPLOY=$( [[ $GITHUB_EVENT_NAME == 'push' && $GITHUB_REF == 'refs/tags'* ]] && echo 'True' || echo 'False' )" >> $GITHUB_ENV     
+         # echo "DEPLOY=$( [[ $GITHUB_EVENT_NAME == 'push' && $GITHUB_REF == 'refs/tags'* ]] && echo 'True' || echo 'False' )" >> $GITHUB_ENV     
 
       - name: Build wheels
         if: ${{env.DEPLOY == 'True'}}
@@ -117,6 +117,7 @@ jobs:
           twine check wheelhouse/*
           twine upload --repository-url $PYPI_SERVER wheelhouse/* -u $PYPI_USER -p $PYPI_PASSWORD
       - name: Upload artifacts to github
+
         if: ${{env.DEPLOY == 'True'}}
         uses: actions/upload-artifact@v1
         with:
