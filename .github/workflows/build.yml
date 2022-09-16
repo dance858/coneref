@@ -65,7 +65,7 @@ jobs:
         os: [ ubuntu-20.04, macos-11, windows-2019 ]
         #os: [ubuntu-20.04]
         #python-version: [ 3.6, 3.7, 3.9, "3.10" ]
-        python-version: []
+        #python-version: []
         include:
           - os: ubuntu-20.04
             python-version: 3.8
