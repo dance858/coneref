@@ -2,12 +2,12 @@ name: build
 
 on:
     release:
-    pull_request:
-    push:
-        branches:
-            - master
-        tags:
-          - '*'
+    #pull_request:
+    #push:
+    #    branches:
+    #        - master
+    #    tags:
+    #      - '*'
 
 jobs:
   cleanup-runs:
@@ -25,8 +25,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: [ ubuntu-20.04, macos-11, windows-2019 ]
-        os: [ubuntu-20.04]
+        os: [ ubuntu-20.04, macos-11, windows-2019 ]
+        #os: [ubuntu-20.04]
         #python-version: [ 3.6, 3.7, 3.8, 3.9, "3.10"]
         python-version: [3.8, 3.9, "3.10" ]
 
@@ -62,18 +62,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #os: [ ubuntu-20.04, macos-11, windows-2019 ]
-        os: [ubuntu-20.04]
+        os: [ ubuntu-20.04, macos-11, windows-2019 ]
+        #os: [ubuntu-20.04]
         #python-version: [ 3.6, 3.7, 3.9, "3.10" ]
         python-version: [3.9, "3.10" ]
         include:
           - os: ubuntu-20.04
             python-version: 3.8
             single_action_config: "True"
-          #- os: macos-11
-          #  python-version: 3.8
-          #- os: windows-2019
-          #  python-version: 3.8
+          - os: macos-11
+            python-version: 3.8
+          - os: windows-2019
+            python-version: 3.8
 
     env:
       RUNNER_OS: ${{ matrix.os }}
