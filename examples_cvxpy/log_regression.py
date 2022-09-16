@@ -2,8 +2,8 @@
 import sys 
 import numpy as np
 import cvxpy as cp
-sys.path.append('..') # For cpref
-import cpref
+sys.path.append('..') # For coneref
+import coneref
 
 def build_logistic_regression_problem_instance(p, q):
     # Generate samples z.
@@ -42,15 +42,15 @@ experiment_results = []
 for iter in range(0, num_of_instances):
     # Generate problem instance.
     problem = build_logistic_regression_problem_instance(p, q)
-    cpref.cvxpy_solve(problem, verbose_ref1 = True, scs_opts = {'max_iters': 10000})
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
+    coneref.cvxpy_solve(problem, verbose_ref1 = True, scs_opts = {'max_iters': 10000})
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
 
     # Check consistency with your parsing system. 
-    #A, b, c, _cones = cpref.parse_data(problem)
-    #z1, x1, y1, s1, info1 = cpref.SCS_solve(A, b, c, _cones, max_iters = 10000, verbose = True)
+    #A, b, c, _cones = coneref.parse_data(problem)
+    #z1, x1, y1, s1, info1 = coneref.SCS_solve(A, b, c, _cones, max_iters = 10000, verbose = True)
     #ref_iter, lsqr_iter, verbose = 2, 300, True
-    #z2, x2, y2, s2, tau, kappa, info2 = cpref.refine_py(A, b, c, _cones, z1, ref_iter, lsqr_iter, verbose)
+    #z2, x2, y2, s2, tau, kappa, info2 = coneref.refine_py(A, b, c, _cones, z1, ref_iter, lsqr_iter, verbose)

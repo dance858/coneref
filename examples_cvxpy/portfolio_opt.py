@@ -1,8 +1,8 @@
 import sys 
 import numpy as np
 import cvxpy as cp
-sys.path.append('..') # For cpref
-import cpref
+sys.path.append('..') # For coneref
+import coneref
 
 
 def build_portfolio_opt_problem_instance(p, q, gamma):
@@ -37,18 +37,18 @@ experiment_results = []
 for iter in range(0, num_of_instances):
     # Generate problem instance.
     problem = build_portfolio_opt_problem_instance(p, q, gamma)
-    cpref.cvxpy_solve(problem, verbose_ref1=True)
-    cpref.cvxpy_solve(problem, verbose_ref1=True)
-    cpref.cvxpy_solve(problem, verbose_ref1=True)
+    coneref.cvxpy_solve(problem, verbose_ref1=True)
+    coneref.cvxpy_solve(problem, verbose_ref1=True)
+    coneref.cvxpy_solve(problem, verbose_ref1=True)
     
 
 
 
 
 
-    #cpref.cvxpy_solve(problem, verbose = True)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem, verbose = True)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)

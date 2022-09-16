@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 sys.path.append("..")    
-from build import _cpref
+from build import _coneref
 from time import time
 #import os  For finding process ID for debugging the C++ code.
 
@@ -17,18 +17,18 @@ CONES = [ZERO, POS, SOC, PSD, EXP, EXP_DUAL]
 
 # Map from Python cones to C++ format.
 CONE_MAP = {
-    'z': _cpref.ConeType.ZERO,
-    "l": _cpref.ConeType.POS,
-    "q": _cpref.ConeType.SOC,
-    "s": _cpref.ConeType.PSD,
-    "ep": _cpref.ConeType.EXP,
-    "ed": _cpref.ConeType.EXP_DUAL
+    'z': _coneref.ConeType.ZERO,
+    "l": _coneref.ConeType.POS,
+    "q": _coneref.ConeType.SOC,
+    "s": _coneref.ConeType.PSD,
+    "ep": _coneref.ConeType.EXP,
+    "ed": _coneref.ConeType.EXP_DUAL
 }
 
 # The following two functions are used to convert a dictionary of cones
 # to C++ format.
 def parse_cone_dict_cpp(cone_list):
-    return [_cpref.Cone(CONE_MAP[cone], [l] if not isinstance(l, (list, tuple)) else l)
+    return [_coneref.Cone(CONE_MAP[cone], [l] if not isinstance(l, (list, tuple)) else l)
             for cone, l in cone_list]
 def parse_cone_dict(cone_dict):
     return [(cone, cone_dict[cone]) for cone in CONES if cone in cone_dict]
@@ -41,7 +41,7 @@ def evaluate_normalized_res_map(z, A, b, c, cones):
     # These caches are not really needed.
     q_cache, eval_cache, evec_cache, ep_cache, ed_cache \
          = make_prod_cone_cache(cones)
-    normalized_res = _cpref.residual_map_python_friendly(A, b, c, _cones_parsed,
+    normalized_res = _coneref.residual_map_python_friendly(A, b, c, _cones_parsed,
                       z, q_cache, eval_cache, evec_cache, ep_cache, ed_cache, n, m)
 
     return normalized_res
@@ -54,7 +54,7 @@ def _z2xsykappatau(z, cones, n, m):
      # These caches are not actually needed.
     q_cache, eval_cache, evec_cache, ep_cache, ed_cache \
         = make_prod_cone_cache(cones)
-    u = _cpref.projection_embedded_cone(z, _cones_parsed, q_cache, eval_cache, 
+    u = _coneref.projection_embedded_cone(z, _cones_parsed, q_cache, eval_cache, 
                                         evec_cache, ep_cache, ed_cache, n, m)
     v = u - z
     x, s, y, tau, kappa = uv2xsytaukappa(u, v, n)
@@ -123,11 +123,11 @@ def refine_py(A, b, c, cones, z, ref_iter = 2, lsqr_iter = 30, verbose1 = True,
     
     # Refine the solution
     tic = time()
-    refined_z = _cpref.refine(A, b, c, _cones_parsed, z, n, m, ref_iter, lsqr_iter,
+    refined_z = _coneref.refine(A, b, c, _cones_parsed, z, n, m, ref_iter, lsqr_iter,
                              verbose2)
 
     # Recover x, y, s from z. Requires an additional projection.
-    u = _cpref.embedded_cone_Pi(refined_z, _cones_parsed, q_cache, eval_cache,
+    u = _coneref.embedded_cone_Pi(refined_z, _cones_parsed, q_cache, eval_cache,
                                 evec_cache, ep_cache, ed_cache, n, m)
     v = u - refined_z    
     x, s, y, tau, kappa = uv2xsytaukappa(u, v, n)

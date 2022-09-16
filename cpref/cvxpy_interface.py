@@ -12,7 +12,7 @@ from .cones_utils import print_residuals, xsy2z, refine_py
 
 @return              TODO:
 """
-def cvxpy_scs_to_cpref(data, sol=None):
+def cvxpy_scs_to_coneref(data, sol=None):
 
     A, b, c, dims = data['A'], data['b'], data['c'], data['dims']
 
@@ -87,7 +87,7 @@ def xsy2z_support_infeasibility_and_unboundedness(x, s, y, b, c):
 
     return z
 
-def cvxpy_scs_to_cpref(data):
+def cvxpy_scs_to_coneref(data):
     A, b, c, dims = data['A'], data['b'], data['c'], data['dims']
 
     dims_dict = {}
@@ -161,7 +161,7 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
         
         # If the problem has a finite optimal value we print the residuals.
         if not (np.any(np.isnan(x)) or np.any(np.isnan(y)) or np.any(np.isnan(s))):
-            A, b, c, dims_dict = cvxpy_scs_to_cpref(data)
+            A, b, c, dims_dict = cvxpy_scs_to_coneref(data)
             print("After solving the problem with SCS (total time = " + "{:.2e}".format(total_time/1000) + "s):")
             print_residuals(np.linalg.norm(A @ x + s - b), np.linalg.norm(A.T @ y + c),
                             s @ y, c.T @ x + b.T @ y)
@@ -175,7 +175,7 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
         z = cvxpy_problem._solver_cache['z']
 
     # Parse data standard cone LP format.
-    A, b, c, dims_dict = cvxpy_scs_to_cpref(data)
+    A, b, c, dims_dict = cvxpy_scs_to_coneref(data)
 
     #print("Norm z before refinement:", np.linalg.norm(z))
     refined_z, x, y, s, tau, kappa, info = \

@@ -12,7 +12,7 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(_cpref, m) {
+PYBIND11_MODULE(_coneref, m) {
   m.doc() = "Refinement of conic linear programs, C++ Extension";
  
   py::class_<Cone>(m, "Cone")

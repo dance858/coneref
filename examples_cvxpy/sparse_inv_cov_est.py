@@ -4,8 +4,8 @@ import cvxpy as cp
 import scipy.sparse as sp
 import scipy
 from sklearn.datasets import make_sparse_spd_matrix
-sys.path.append('..') # For cpref
-import cpref
+sys.path.append('..') # For coneref
+import coneref
 
 # p = number of samples, ratio = fraction of zeros in S, q = dimension of covariance
 # matrix.
@@ -38,15 +38,15 @@ experiment_results = []
 for iter in range(0, num_of_instances):
     # Generate problem instance.
     problem = build_sparse_inv_cov_estimation_problem_instance(p, q, ratio)
-    cpref.cvxpy_solve(problem, verbose_ref1 = True, scs_opts = {})
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
-    #cpref.cvxpy_solve(problem)
+    coneref.cvxpy_solve(problem, verbose_ref1 = True, scs_opts = {})
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
+    #coneref.cvxpy_solve(problem)
 
     # Check consistency with your parsing system.
-    #A, b, c, _cones = cpref.parse_data(problem)
-    #z1, x1, y1, s1, info1 = cpref.SCS_solve(A, b, c, _cones, max_iters = 4000, verbose = True)
+    #A, b, c, _cones = coneref.parse_data(problem)
+    #z1, x1, y1, s1, info1 = coneref.SCS_solve(A, b, c, _cones, max_iters = 4000, verbose = True)
     #ref_iter, lsqr_iter, verbose = 2, 300, True
-    #z2, x2, y2, s2, tau, kappa, info2 = cpref.refine_py(A, b, c, _cones, z1, ref_iter, lsqr_iter, verbose)
+    #z2, x2, y2, s2, tau, kappa, info2 = coneref.refine_py(A, b, c, _cones, z1, ref_iter, lsqr_iter, verbose)
