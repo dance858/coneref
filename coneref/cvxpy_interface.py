@@ -1,7 +1,7 @@
 import numpy as np
 from time import time
 from cvxpy.reductions.solvers.solving_chain import construct_solving_chain
-from .cones_utils import print_residuals, xsy2z, refine_py
+from cones_utils import print_residuals, xsy2z, refine_py
 
 """ 
 @param[in] data      Dictionary that contains all problem data for a 

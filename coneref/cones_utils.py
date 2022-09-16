@@ -1,7 +1,6 @@
 import numpy as np
-import sys
-sys.path.append("..")    
-from build import _coneref
+import sys   
+import _coneref
 from time import time
 #import os  For finding process ID for debugging the C++ code.
 
