@@ -46,18 +46,18 @@ def evaluate_normalized_res_map(z, A, b, c, cones):
     return normalized_res
 
 # Compute x, s, y, kappa, tau from z."""
-def _z2xsykappatau(z, cones, n, m):
-    _cones = parse_cone_dict(cones)
-    _cones_parsed = parse_cone_dict_cpp(_cones)
+#def _z2xsykappatau(z, cones, n, m):
+#    _cones = parse_cone_dict(cones)
+#    _cones_parsed = parse_cone_dict_cpp(_cones)
 
      # These caches are not actually needed.
-    q_cache, eval_cache, evec_cache, ep_cache, ed_cache \
-        = make_prod_cone_cache(cones)
-    u = _coneref.projection_embedded_cone(z, _cones_parsed, q_cache, eval_cache, 
-                                        evec_cache, ep_cache, ed_cache, n, m)
-    v = u - z
-    x, s, y, tau, kappa = uv2xsytaukappa(u, v, n)
-    return x, s, y, tau, kappa
+#    q_cache, eval_cache, evec_cache, ep_cache, ed_cache \
+#        = make_prod_cone_cache(cones)
+#    u = _coneref.projection_embedded_cone(z, _cones_parsed, q_cache, eval_cache, 
+#                                        evec_cache, ep_cache, ed_cache, n, m)
+#    v = u - z
+#    x, s, y, tau, kappa = uv2xsytaukappa(u, v, n)
+#    return x, s, y, tau, kappa
 
 # The following functions are used to set up caches for all cone types.
 def make_prod_cone_cache(dim_dict):
@@ -100,7 +100,8 @@ def xsy2z(x, s, y, tau=1., kappa=0.):
     u, v = xsy2uv(x, s, y, tau, kappa)
     return u - v
 
-# Given u and v this function returns x, s, y, tau, kappa. """
+
+# Given u and v this function returns x, s, y, tau, kappa.
 def uv2xsytaukappa(u, v, n):
     tau = np.float(u[-1])
     kappa = np.float(v[-1])
@@ -111,8 +112,8 @@ def uv2xsytaukappa(u, v, n):
 
 #  Refines an approximate solution to the conic linear program
 #   min. c^T x subject to Ax + s = b, s \in \mathcal{K}.
-def refine_py(A, b, c, cones, z, ref_iter = 2, lsqr_iter = 30, verbose1 = True, 
-              verbose2 = False):
+def refine_py(A, b, c, cones, z, ref_iter = 2, lsqr_iter = 30, 
+              verbose = False):
     _cones = parse_cone_dict(cones)
     _cones_parsed = parse_cone_dict_cpp(_cones)
     m, n = A.shape 
@@ -123,7 +124,7 @@ def refine_py(A, b, c, cones, z, ref_iter = 2, lsqr_iter = 30, verbose1 = True,
     # Refine the solution
     tic = time()
     refined_z = _coneref.refine(A, b, c, _cones_parsed, z, n, m, ref_iter, lsqr_iter,
-                             verbose2)
+                             verbose)
 
     # Recover x, y, s from z. Requires an additional projection.
     u = _coneref.embedded_cone_Pi(refined_z, _cones_parsed, q_cache, eval_cache,
@@ -139,16 +140,21 @@ def refine_py(A, b, c, cones, z, ref_iter = 2, lsqr_iter = 30, verbose1 = True,
     info['sTy'] = s @ y 
     info['duality_gap'] = c.T @ x + b.T @ y
 
-    if verbose1:
-        print("After refinement (ref time =" + "{:.2e}".format(info['ref_time']) + "s):")
-        print_residuals(info['primal_residual'], info['dual_residual'], info['sTy'],
-                        info['duality_gap'])
-
     return refined_z, x, y, s, tau, kappa, info
 
-def print_residuals(primal_residual, dual_residual, sTy, duality_gap):
-    print("Primal residual/dual residual/s^Ty/duality_gap:",
-              "{:.4e}".format(primal_residual), " ",
-              "{:.4e}".format(dual_residual), " ",
-              "{:.4e}".format(sTy), " ",
-              "{:.4e}".format(duality_gap))
+def print_residuals(primal_residual = -1, dual_residual = -1, duality_gap = -1,
+                    bTy = -1, ATy_norm = -1, Axs_norm = -1, cTx = -1,
+                    primal_infeasible = False, dual_infeasible = False,
+                    finite_opt_val = False):
+
+    if finite_opt_val:                
+        print("Primal residual/dual residual/duality_gap:",
+                    "{:.4e}".format(primal_residual), " ",
+                    "{:.4e}".format(dual_residual), " ",
+                    "{:.4e}".format(duality_gap))
+    elif primal_infeasible:
+        print("b @ y:", bTy)
+        print("||A^T y||:", ATy_norm)
+    elif dual_infeasible:
+        print("c @ x:", "{:.4e}".format(cTx))
+        print("||Ax + s||:", "{:.4e}".format(Axs_norm))

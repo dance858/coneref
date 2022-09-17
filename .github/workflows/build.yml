@@ -100,6 +100,7 @@ jobs:
       - name: Build wheels
         if: ${{env.DEPLOY == 'True'}}
         env:
+          echo "Running build wheels woho"
           CIBW_BUILD: "cp3${{env.PYTHON_SUBVERSION}}-*"
           CIBW_SKIP: "*-win32 *_i686 *-musllinux*"
         uses: joerick/cibuildwheel@v2.3.1
@@ -107,12 +108,14 @@ jobs:
       - name: Build source
         if: ${{env.DEPLOY == 'True' && env.DEPLOY_PYPI_SOURCE == 'True'}}
         run: |
+          echo "Running build source woho"
           python setup.py sdist --dist-dir=wheelhouse
           
       - name: Release to pypi
         if: ${{env.DEPLOY == 'True'}}
         shell: bash
         run: |
+          echo "Releasing to pypi woho"
           python -m pip install --upgrade twine
           twine check wheelhouse/*
           twine upload --repository-url $PYPI_SERVER wheelhouse/* -u $PYPI_USER -p $PYPI_PASSWORD
