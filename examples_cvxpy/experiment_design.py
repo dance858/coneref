@@ -1,7 +1,5 @@
-import sys 
 import numpy as np
 import cvxpy as cp
-sys.path.append('..') # For coneref
 import coneref
 
 

@@ -1,10 +1,8 @@
-import sys 
 import numpy as np
 import cvxpy as cp
 import scipy.sparse as sp
 import scipy
 from sklearn.datasets import make_sparse_spd_matrix
-sys.path.append('..') # For coneref
 import coneref
 
 # p = number of samples, ratio = fraction of zeros in S, q = dimension of covariance
