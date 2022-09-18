@@ -43,7 +43,7 @@ _coneref = Extension(
         "cpp/include",
     ],
     language='c++',
-    extra_compile_args=["-O3", "-std=c++11", "-march=native"]
+    extra_compile_args=["-O3", "-std=c++11"]
 )
 
 

@@ -68,7 +68,7 @@ LinearOperator DR_operator_memory_optimized
                           const Vector &cache_evecs, const Vector &ep_cache, 
                           const Vector &ed_cache) {
 
-  int N = u.size() + v.size() + 1;
+  //int N = u.size() + v.size() + 1;
 
   LinearOperator DR = dpi_with_cache_support(u, v, w, cones, q_cache, cache_evals,
                                              cache_evecs, ep_cache, ed_cache);

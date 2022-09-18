@@ -253,7 +253,7 @@ Vector prod_cone_Pi(const Vector &x, const std::vector<Cone> &cones,
 Vector PSD_Pi(const Vector &x, Vector &cache_evals, Vector &cache_evecs){
 
   // Unvectorize x.
-  int n = x.size();
+  //int n = x.size();
   const Matrix &X = matrix_from_lower_triangular(x);
 
   // Eigenvalue decomposition.
