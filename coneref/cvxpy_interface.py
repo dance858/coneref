@@ -103,9 +103,11 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
         s = scs_solution['s']
         total_time = scs_solution['info']['solve_time'] + \
                      scs_solution['info']['setup_time']
+        cvxpy_problem._solver_cache['scs_total_time'] = total_time
+        
         z = xsy2z_support_certificates(x, s, y, data['b'], data['c'])
         
-        # Print residuals.  There are residuals inside "scs_solution['info]"
+        # Print residuals. There are residuals inside "scs_solution['info]"
         # but these residuals do not coincide with the true residuals. Maybe
         # they are computed for the scaled problem?
         A, b, c, dims_dict = cvxpy_scs_to_coneref(data)
@@ -139,6 +141,8 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
     refined_z, x, y, s, tau, kappa, info = \
                                   refine_py(A, b, c, dims_dict, z, ref_iter=ref_iter,
                                             lsqr_iter=lsqr_iter, verbose = verbose_ref2)
+    cvxpy_problem._solver_cache['refine_time'] = info['ref_time']*1000 # In milliseconds
+    
     if verbose_ref1:
         print("After refinement (ref time =" + "{:.2e}".format(info['ref_time']) + "s):")
         if 'primal_infeasible' in cvxpy_problem._solver_cache:
@@ -154,28 +158,35 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
                            finite_opt_val = True)
 
 
-    # If the problem has a finite solution.
-    if 'SCS' in cvxpy_problem._solver_cache.keys():
-        #print("cvxpy_problem._solver_cache['SCS'].keys(): ", cvxpy_problem._solver_cache['SCS'].keys())
+    # If the problem seems to have a finite solution. 
+    if 'finite_opt_val' in cvxpy_problem._solver_cache: 
+        # If SCS terminates because it has reached the maximum number of
+        # iterations, cvxpy_problem._solver_cache does not contain the 'SCS' field
+        # so we add it manually.
+        if not ('SCS' in cvxpy_problem._solver_cache.keys()):
+            cvxpy_problem._solver_cache['SCS'] = {'info': {'status_val': 1,
+            'solve_time': scs_solution['info']['solve_time'], 
+            'setup_time': scs_solution['info']['setup_time'],
+            'iter': scs_solution['info']['iter']}}
+
+        # Update the information in SCS. 
         cvxpy_problem._solver_cache['SCS']['x'] = x            
         cvxpy_problem._solver_cache['SCS']['y'] = y 
         cvxpy_problem._solver_cache['SCS']['s'] = s
+        cvxpy_problem._solver_cache['SCS']['info']['pobj'] = c @ x 
+        cvxpy_problem._solver_cache['SCS']['info']['dobj'] = -b @ y      # Need the minus sign to compensate for earlier change of sign.
+        cvxpy_problem._solver_cache['SCS']['info']['res_pri'] = info['primal_residual']
+        cvxpy_problem._solver_cache['SCS']['info']['res_dual'] = info['dual_residual']
+        cvxpy_problem._solver_cache['SCS']['info']['gap'] = info['duality_gap']
+        cvxpy_problem._solver_cache['SCS']['info']['comp_slack'] = info['sTy']
         cvxpy_problem._solver_cache['z'] = refined_z
-
-        # If SCS terminates because it has reached the maximum number of
-        # iterations it seems like cvxpy_problem._solver_cache may not 
-        # contain the info field. For the unpacking to work we must 
-        # provide the info field with some information?
-        # TODO: Add valid information to info field here.
-        if ~('info' in cvxpy_problem._solver_cache['SCS'].keys()):
-             cvxpy_problem._solver_cache['SCS']['info'] = \
-                  {'status_val': 1, "solve_time": 1, "setup_time": 1, "iter": 1,
-                   'pobj': x @ c if tau > 0 else np.nan}
-        #print("cvxpy_problem._solver_cache['SCS']['info']:", cvxpy_problem._solver_cache['SCS']['info'])
         cvxpy_problem.unpack_results(cvxpy_problem._solver_cache['SCS'], 
                                  solving_chain, inverse_data)
-    else:
-        cvxpy_problem._solver_cache['SCS'] = {'x': x, 'y': y, 's': s}
+    # If primal infeasible problem.
+    elif 'primal_infeasible' in cvxpy_problem._solver_cache:
+        cvxpy_problem._solver_cache['primal_infeas_cert'] = {'y': y}
         cvxpy_problem._solver_cache['z'] = refined_z
+    elif 'dual_infeasible' in cvxpy_problem._solver_cache:
+        cvxpy_problem._solver_cache['dual_infeas_cert'] = {'x': x, 's': s}
     
 

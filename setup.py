@@ -43,7 +43,7 @@ _coneref = Extension(
         "cpp/include",
     ],
     language='c++',
-    extra_compile_args=["-O3", "-std=c++11"]
+    extra_compile_args=["-O3", "-std=c++11", "-march=native"]
 )
 
 
@@ -79,7 +79,7 @@ setup(
         "scs >= 2.0.2",  # 2.0.2 is the oldest version on conda forge
         "scipy >= 1.1.0",
         "pybind11 >= 2.4",
-        "cvxpy >= 1.1.0],
+        "cvxpy >= 1.1.0"],
     url="https://github.com/dance858/coneref",
     ext_modules=ext_modules,
     license="Apache License, Version 2.0",
