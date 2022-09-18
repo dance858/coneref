@@ -121,9 +121,12 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
                             dual_infeasible=True)
             cvxpy_problem._solver_cache['dual_infeasible'] = True
         else:
-            print_residuals(primal_residual = np.linalg.norm(A @ x + s - b),
-                           dual_residual = np.linalg.norm(A.T @ y + c),
-                           duality_gap = c.T @ x + b.T @ y,
+            cvxpy_problem._solver_cache['SCS']['info']['res_pri_before_ref'] = np.linalg.norm(A @ x + s - b)
+            cvxpy_problem._solver_cache['SCS']['info']['res_dual_before_ref'] = np.linalg.norm(A.T @ y + c)
+            cvxpy_problem._solver_cache['SCS']['info']['gap_before_ref'] = c.T @ x + b.T @ y
+            print_residuals(primal_residual = cvxpy_problem._solver_cache['SCS']['info']['res_pri_before_ref'],
+                           dual_residual = cvxpy_problem._solver_cache['SCS']['info']['res_dual_before_ref'],
+                           duality_gap = cvxpy_problem._solver_cache['SCS']['info']['gap_before_ref'],
                            finite_opt_val = True)
             cvxpy_problem._solver_cache['finite_opt_val'] = True
 
@@ -175,10 +178,10 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
         cvxpy_problem._solver_cache['SCS']['s'] = s
         cvxpy_problem._solver_cache['SCS']['info']['pobj'] = c @ x 
         cvxpy_problem._solver_cache['SCS']['info']['dobj'] = -b @ y      # Need the minus sign to compensate for earlier change of sign.
-        cvxpy_problem._solver_cache['SCS']['info']['res_pri'] = info['primal_residual']
-        cvxpy_problem._solver_cache['SCS']['info']['res_dual'] = info['dual_residual']
-        cvxpy_problem._solver_cache['SCS']['info']['gap'] = info['duality_gap']
-        cvxpy_problem._solver_cache['SCS']['info']['comp_slack'] = info['sTy']
+        cvxpy_problem._solver_cache['SCS']['info']['res_pri_after_ref'] = info['primal_residual']
+        cvxpy_problem._solver_cache['SCS']['info']['res_dual_after_ref'] = info['dual_residual']
+        cvxpy_problem._solver_cache['SCS']['info']['gap_after_ref'] = info['duality_gap']
+        cvxpy_problem._solver_cache['SCS']['info']['comp_slack_after_ref'] = info['sTy']
         cvxpy_problem._solver_cache['z'] = refined_z
         cvxpy_problem.unpack_results(cvxpy_problem._solver_cache['SCS'], 
                                  solving_chain, inverse_data)
