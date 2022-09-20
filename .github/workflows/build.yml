@@ -83,7 +83,7 @@ jobs:
       PYPI_USER: ${{ secrets.PYPI_USER }}
       PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       DEPLOY: 'True'
-      DEPLOY_PYPI_SOURCE: 'False'
+      DEPLOY_PYPI_SOURCE: 'True'
 
     steps:
 

@@ -4,7 +4,7 @@ from glob import glob
 import os
 import platform
 from setuptools import Extension, setup, find_packages
-#from setuptools.command.build_ext import build_ext
+from setuptools.command.build_ext import build_ext
 import subprocess
 import sys
 
@@ -31,6 +31,16 @@ class get_pybind_include(object):
 
 
 
+def march_native():
+    try:
+        bit = os.environ["MARCH_NATIVE"]
+        if bit == '1':
+            return ["-march=native"]
+        else:
+            return []
+    except KeyError:
+        return []
+
 
 _coneref = Extension(
     '_coneref',
@@ -43,7 +53,7 @@ _coneref = Extension(
         "cpp/include",
     ],
     language='c++',
-    extra_compile_args=["-O3", "-std=c++11"]
+    extra_compile_args=["-O3", "-std=c++11"] + march_native()
 )
 
 
@@ -68,7 +78,7 @@ ext_modules = [_coneref]
 
 setup(
     name='coneref',
-    version="0.1.2",
+    version="0.1.3",
     author="Daniel Cederberg, Stephen Boyd",
     long_description=long_description,
     long_description_content_type="text/markdown",
