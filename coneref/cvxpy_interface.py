@@ -121,6 +121,15 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
                             dual_infeasible=True)
             cvxpy_problem._solver_cache['dual_infeasible'] = True
         else:
+            # If SCS terminates because it has reached the maximum number of
+            # iterations, cvxpy_problem._solver_cache does not contain the 'SCS' field
+            # so we add it manually.
+            if not ('SCS' in cvxpy_problem._solver_cache.keys()):
+                cvxpy_problem._solver_cache['SCS'] = {'info': {'status_val': 2,
+                'solve_time': scs_solution['info']['solve_time'], 
+                'setup_time': scs_solution['info']['setup_time'],
+                'iter': scs_solution['info']['iter']}}
+
             cvxpy_problem._solver_cache['SCS']['info']['res_pri_before_ref'] = np.linalg.norm(A @ x + s - b)
             cvxpy_problem._solver_cache['SCS']['info']['res_dual_before_ref'] = np.linalg.norm(A.T @ y + c)
             cvxpy_problem._solver_cache['SCS']['info']['gap_before_ref'] = c.T @ x + b.T @ y
@@ -166,11 +175,11 @@ def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_
         # If SCS terminates because it has reached the maximum number of
         # iterations, cvxpy_problem._solver_cache does not contain the 'SCS' field
         # so we add it manually.
-        if not ('SCS' in cvxpy_problem._solver_cache.keys()):
-            cvxpy_problem._solver_cache['SCS'] = {'info': {'status_val': 1,
-            'solve_time': scs_solution['info']['solve_time'], 
-            'setup_time': scs_solution['info']['setup_time'],
-            'iter': scs_solution['info']['iter']}}
+        #if not ('SCS' in cvxpy_problem._solver_cache.keys()):
+        #    cvxpy_problem._solver_cache['SCS'] = {'info': {'status_val': 2,
+        #    'solve_time': scs_solution['info']['solve_time'], 
+        #    'setup_time': scs_solution['info']['setup_time'],
+        #    'iter': scs_solution['info']['iter']}}
 
         # Update the information in SCS. 
         cvxpy_problem._solver_cache['SCS']['x'] = x            
