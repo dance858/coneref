@@ -17,7 +17,7 @@ Enabling vectorization typically decreases the refinement time by a factor 2 for
 Building `coneref` from the source distribution requires a compiler that supports C++11.
 
 ### Refinement
-The basic idea of the refinement procedure is to reduce the problem of solving a conic linear program to the problem of finding a zero of a nonlinear map. A Newton-based method is then applied to solve the root-finding problem. For more details, see the paper [Solution Refinement at Regular Points of Conic Problems](https://web.stanford.edu/~boyd/papers/cone_prog_refine.html). Also see the note [refinement_theory_note.pdf](https://www.google.com/). 
+The basic idea of the refinement procedure is to reduce the problem of solving a conic linear program to the problem of finding a zero of a nonlinear map. A Newton-based method is then applied to solve the root-finding problem. For more details, see the paper [Solution Refinement at Regular Points of Conic Problems](https://web.stanford.edu/~boyd/papers/cone_prog_refine.html). Also see the note [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf). 
 
 
 ### Basic example
@@ -42,7 +42,7 @@ The function modifies the object `prob` in the following way: `TODO`
 
 
 ### How well does it work?
-The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://www.google.com/). 
+The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf). 
 
 ### Citing
 If you find this package useful, consider citing the following works.
