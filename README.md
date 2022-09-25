@@ -44,6 +44,10 @@ The function modifies the object `prob` in the following way: `TODO`
 ### How well does it work?
 The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf). 
 
+### Acknowledgements
+`TODO` Some code has been modified from ... 
+Also add tests.
+
 ### Citing
 If you find this package useful, consider citing the following works.
 
