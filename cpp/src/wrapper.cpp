@@ -14,7 +14,12 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(_coneref, m) {
   m.doc() = "Refinement of conic linear programs, C++ Extension";
- 
+  py::class_<LinearOperator>(m, "LinearOperator")
+      .def("matvec", &LinearOperator::apply_matvec)
+      .def("rmatvec", &LinearOperator::apply_rmatvec)
+      .def("transpose", &LinearOperator::transpose)
+      .def_readonly("m", &LinearOperator::m)
+      .def_readonly("n", &LinearOperator::n);
   py::class_<Cone>(m, "Cone")
       .def(py::init<ConeType, const std::vector<int> &>())
       .def_readonly("type", &Cone::type)
@@ -26,6 +31,7 @@ PYBIND11_MODULE(_coneref, m) {
       .value("PSD", ConeType::PSD)
       .value("EXP", ConeType::EXP)
       .value("EXP_DUAL", ConeType::EXP_DUAL);
+    
 
   m.def("SOC_Pi", &SOC_Pi);
   m.def("PSD_Pi", &PSD_Pi);
