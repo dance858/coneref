@@ -73,11 +73,11 @@ Solve problem with SCS and take two refinement steps.
 After SCS (total time = 8.74e+02s):
 Primal residual/dual residual/duality_gap: 4.7324e-05   1.7722e-02   -7.7714e-04
 
-After refinement (ref time =5.68e+00s):
+After refinement (ref time = 5.68e+00s):
 Primal residual/dual residual/duality_gap: 1.6998e-05   6.8185e-07   1.4947e-07
 
 Take two additional refinement steps.
-After refinement (ref time =5.16e+00s):
+After refinement (ref time = 5.16e+00s):
 Primal residual/dual residual/duality_gap: 6.5164e-06   3.5763e-07   -3.4035e-08
 ```
 
