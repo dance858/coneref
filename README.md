@@ -82,7 +82,7 @@ Primal residual/dual residual/duality_gap: 6.5164e-06   3.5763e-07   -3.4035e-08
 ### Interface
 The package exposes the function
 ```python
-cvxpy_solve(prob, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_opts={}, warmstart=False, verbose_ref1=True, verbose_ref2=True).
+cvxpy_solve(prob, ref_iter=2, lsqr_iter=300, verbose_scs=True, scs_opts={}, warmstart=False, verbose_ref1=True, verbose_ref2=True).
 ```
 Here the arguments are defined as follows.
 * `prob` - The problem you want to solve in CVXPY-format.
