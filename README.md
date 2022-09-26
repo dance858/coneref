@@ -21,9 +21,7 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 
 
 ### Basic example
-`coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org). 
-
-The following optimization problem arises in the context of sparse inverse covariance estimation:
+`coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org). The following optimization problem arises in the context of sparse inverse covariance estimation:
 
 $$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \left\lVert S\right\rVert \end{array}  \end{equation*},$$
 
