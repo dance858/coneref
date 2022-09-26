@@ -79,7 +79,9 @@ def cvxpy_scs_to_coneref(data):
 """
 
 
-def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_opts = {}, verbose_ref1 = True, verbose_ref2 = False, warm_start=False):
+def cvxpy_solve(cvxpy_problem, ref_iter=2, lsqr_iter=300, verbose_scs=True,
+                scs_opts = {}, verbose_ref1 = True, verbose_ref2 = False,
+                warm_start=False):
     
     # If the solving chain for the cvxpy problem has not been built, we build it 
     # and store it. We also solve the problem (which is on standard conic LP form).

@@ -78,7 +78,7 @@ ext_modules = [_coneref]
 
 setup(
     name='coneref',
-    version="0.1.4",
+    version="0.1.5",
     author="Daniel Cederberg, Stephen Boyd",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -92,7 +92,7 @@ setup(
         "cvxpy >= 1.1.0"],
     url="https://github.com/dance858/coneref",
     ext_modules=ext_modules,
-    license="Apache License, Version 2.0",
+    license="MIT License",
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
