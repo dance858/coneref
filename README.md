@@ -25,7 +25,7 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 
 The following optimization problem arises in the context of sparse inverse covariance estimation:
 
-$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \|S\|_1 \end{array} \| x \|  \end{equation*},$$
+$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \||S\||_1 \end{array} \end{equation*},$$
 
 where the optimization variable is $S \in \bf{S}^n$.
 
