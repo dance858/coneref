@@ -21,7 +21,15 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 
 
 ### Basic example
-`coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org) and the splitting conic solver [`SCS`](https://www.cvxgrp.org/scs/).  `TODO`
+`coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org). 
+
+The following optimization problem arises in the context of sparse inverse covariance estimation:
+
+\begin{align*}
+    \text{minimize } -\log \det (S) + \Tr (S Q) + \alpha \norm{S}_1,
+\end{align*}
+
+
 
 
 ### Interface
@@ -42,7 +50,7 @@ The function modifies the object `prob` in the following way: `TODO`
 
 
 ### How well does it work?
-The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf). 
+The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf) for empirical results.
 
 ### Acknowledgements
 `TODO` Some code has been modified from ... 
