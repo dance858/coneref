@@ -12,7 +12,7 @@ pip install coneref
 ```bash
 MARCH_NATIVE=1 pip install coneref --no-binary=coneref
 ```
-Enabling vectorization typically decreases the refinement time by a factor 2 for problems with matrix variables and by 10% for problems with vector variables.
+Enabling vectorization typically decreases the refinement time by a factor of 2 for problems with matrix variables and by 10% for problems with vector variables.
 
 Building `coneref` from the source distribution requires a compiler that supports C++11.
 
@@ -23,7 +23,7 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 ### Basic example
 `coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org). The following optimization problem arises in the context of sparse inverse covariance estimation:
 
-$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \left\lVert S\right\rVert \end{array}  \end{equation*},$$
+$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \left\lVert S\right\rVert_1 \end{array}  \end{equation*},$$
 
 where the optimization variable is $S \in \bf{S}^n$. The following code snippet generates a problem instance, solves it using [`SCS`](https://github.com/cvxgrp/scs), takes two refinement steps and then two additional refinement steps.
 
@@ -85,19 +85,19 @@ The package exposes the function
 cvxpy_solve(prob, ref_iter=2, lsqr_iter=500, verbose_scs=True, scs_opts={}, warmstart=False, verbose_ref1=True, verbose_ref2=True).
 ```
 Here the arguments are defined as follows.
-* `prob` - cvxpy-problem.
+* `prob` - The problem you want to solve in CVXPY-format.
 * `ref-iter` - number of refinement steps.
 * `lsqr_iter` - each refinement step requires solving a sparse linear system approximately. This parameter determines the maximum number of LSQR                     iterations.
-* `verbose_scs` - verbose parameter sent to SCS.
-* `warm_start` - SCS parameter.
-* `verbose_ref1` - If true the refinement algorithm outputs the KKT-residuals.
-* `verbose_ref2` - If true the refinement algorithm outputs the norm of the normalized residual map.
+* `verbose_scs` - verbose parameter sent to SCS. If true, SCS outputs its progress.
+* `warm_start` - Whether to warm-start SCS or not.
+* `verbose_ref1` - If true the refinement algorithm outputs the norm of the KKT-residuals/infeasibility certificates.
+* `verbose_ref2` - If true the refinement algorithm outputs the norm of the normalized residual map. This option is mainly for developers.
 
 The function modifies the object `prob` in the following way: `TODO`
 
 
 ### How well does it work?
-The refinement algorithm can often produce a more accurate solution with a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf) for empirical results.
+The refinement algorithm can often produce a more accurate solution with just a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf) for empirical results.
 
 ### Acknowledgements
 `TODO` Some code has been modified from ... 
