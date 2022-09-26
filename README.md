@@ -24,13 +24,8 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 `coneref` can be used in combination with [`cvxpy`](https://www.cvxpy.org). 
 
 The following optimization problem arises in the context of sparse inverse covariance estimation:
-
-\begin{align*}
-    \text{minimize } -\log \det (S) + \Tr (S Q) + \alpha \norm{S}_1,
-\end{align*}
-
-
-
+$$\begin{equation*} \begin{array}{ll} \text{minimize} & log \det (S) + \Tr (S Q) + \alpha \norm{S}_1 \end{array} \end{equation*}$$,
+where the optimization variable is $S \in \bf{S}^n$.
 
 ### Interface
 The package exposes the function
