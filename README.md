@@ -27,7 +27,7 @@ The following optimization problem arises in the context of sparse inverse covar
 
 $$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \left\lVert S\right\rVert \end{array}  \end{equation*},$$
 
-where the optimization variable is $S \in \bf{S}^n$. This code snippet ...
+where the optimization variable is $S \in \bf{S}^n$. The following code snippet generates a problem instance, solves it using [`SCS`](https://github.com/cvxgrp/scs), takes two refinement steps and then two additional refinement steps.
 
 ```python
 import numpy as np
@@ -65,7 +65,7 @@ coneref.cvxpy_solve(problem)
 # Retrieve the solution. 
 estimated_covariance_matrix = S.value
 ```
-Running this code snippet produces the the following output.
+Running this code snippet produces the following output.
 
 
 ```
