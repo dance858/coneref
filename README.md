@@ -25,9 +25,52 @@ The basic idea of the refinement procedure is to reduce the problem of solving a
 
 The following optimization problem arises in the context of sparse inverse covariance estimation:
 
-$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \||S\||_1 \end{array} \left\lVert S\right\rVert. \end{equation*},$$
+$$\begin{equation*} \begin{array}{ll} \text{minimize} & \text{log det}  (S) + \text{Tr} (S Q) + \alpha \left\lVert S\right\rVert \end{array}  \end{equation*},$$
 
-where the optimization variable is $S \in \bf{S}^n$.
+where the optimization variable is $S \in \bf{S}^n$. The following code snippet ...
+
+```python
+import numpy as np
+import scipy
+from sklearn.datasets import make_sparse_spd_matrix
+import cvxpy as cp
+import coneref
+
+# Generate problem data.
+q = 40
+p = (7 + np.random.randint(0, 6))*q
+ratio = 0.9
+S_true = make_sparse_spd_matrix(q, alpha = ratio)
+Sigma = np.linalg.inv(S_true)
+z_sample = scipy.linalg.sqrtm(Sigma).dot(np.random.randn(q,p))
+Q = np.cov(z_sample)
+mask = np.ones(Q.shape, dtype=bool)
+np.fill_diagonal(mask, 0)
+alpha_max = np.max(np.abs(Q)[mask])
+alpha = 0.005*alpha_max
+
+# Build optimization model using cvxpy.
+S = cp.Variable((q, q), PSD = True)
+obj = -cp.log_det(S) + cp.trace(S @ Q) + alpha*cp.sum(cp.abs(S))
+problem = cp.Problem(objective = cp.Minimize(obj))
+
+# Solve problem using SCS, take two refinement steps.
+print("Solve problem with SCS and take two refinement steps.")
+coneref.cvxpy_solve(problem, verbose_scs=False)
+
+# Refine again.
+print("Take two additional refinement steps.")
+coneref.cvxpy_solve(problem)
+
+# Retrieve the solution. 
+estimated_covariance_matrix = S.value
+```
+Running this code snippet outsput the following information.......
+
+
+
+
+
 
 ### Interface
 The package exposes the function
