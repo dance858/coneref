@@ -257,7 +257,7 @@ std::vector<Vector> prod_cone_Pi_return_cache(const Vector &x, const std::vector
 
   Vector proj_x = prod_cone_Pi(x, cones, q_cache, cache_evals, cache_evecs, 
                               ep_cache, ed_cache);
-  return_object.push_back(x);
+  return_object.push_back(proj_x);
   return_object.push_back(q_cache);
   return_object.push_back(cache_evals);
   return_object.push_back(cache_evecs);
