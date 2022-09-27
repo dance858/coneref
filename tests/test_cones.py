@@ -107,7 +107,7 @@ class BaseTestCone(unittest.TestCase):
             
             for i in range(HOW_MANY_DERIVATIVE_SAMPLES):
                 delta = np.random.randn(
-                    size_vec(x)) * HOW_LONG_DERIVATIVE_TEST_STEP
+                    size_vec(x)) * HOW_LONG_DERIVATIVE_TEST_STEP*0.1
                 # new_cache is not used later.
                 new_cache = self.make_cache(len(x))
                 proj_x_plus_delta = self.Pi(x + delta, new_cache)
@@ -122,6 +122,10 @@ class BaseTestCone(unittest.TestCase):
                     print(proj_x_plus_delta - proj_x)
                     print('DPi delta:')
                     print(dproj_x)
+                    print("proj_x + dproj_x:")
+                    print(proj_x + dproj_x)
+                    print("proj_x_plus_delta:")
+                    print(proj_x_plus_delta)
 
                 self.assertTrue(np.allclose(
                     proj_x + dproj_x,
