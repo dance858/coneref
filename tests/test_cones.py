@@ -113,7 +113,7 @@ class BaseTestCone(unittest.TestCase):
                 proj_x_plus_delta = self.Pi(x + delta, new_cache)
  
                 dproj_x = self.diff(x, delta, cache)
-                if not np.allclose(proj_x + dproj_x, proj_x_plus_delta):
+                if not np.allclose(proj_x + dproj_x, proj_x_plus_delta, atol = 1e-5):
                     print('x:', x)
                     print('Pi x:', proj_x)
                     print('delta:')
@@ -129,7 +129,7 @@ class BaseTestCone(unittest.TestCase):
 
                 self.assertTrue(np.allclose(
                     proj_x + dproj_x,
-                    proj_x_plus_delta))
+                    proj_x_plus_delta, atol = 1e-5))
 
 
 class TestExpPri(BaseTestCone):
