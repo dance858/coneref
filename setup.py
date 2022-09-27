@@ -78,7 +78,7 @@ ext_modules = [_coneref]
 
 setup(
     name='coneref',
-    version="0.1.9",
+    version="0.2.0",
     author="Daniel Cederberg, Stephen Boyd",
     long_description=long_description,
     long_description_content_type="text/markdown",
