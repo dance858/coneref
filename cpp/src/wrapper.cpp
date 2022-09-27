@@ -39,6 +39,8 @@ PYBIND11_MODULE(_coneref, m) {
   m.def("exp_dual_Pi", &exp_dual_Pi);
   m.def("prod_cone_Pi", &prod_cone_Pi);
   m.def("embedded_cone_Pi", &embedded_cone_Pi);
+  m.def("prod_cone_Pi_return_cache", &prod_cone_Pi_return_cache);
+
 
   m.def("SOC_Pi_diff", &SOC_Pi_diff);
   m.def("SDP_Pi_diff", &SDP_Pi_diff);

@@ -60,7 +60,11 @@ Eigen::Vector3d exp_dual_Pi(const Eigen::Vector3d &x, Eigen::Vector3d &ed_cache)
  */
 Vector prod_cone_Pi(const Vector &x, const std::vector<Cone> &cones, 
                     Vector &q_cache,  Vector &cache_evals, Vector &cache_evecs,
-                    Vector &ep_cache, Vector &ed_cache);          
+                    Vector &ep_cache, Vector &ed_cache);    
+
+std::vector<Vector> prod_cone_Pi_return_cache(const Vector &x, const std::vector<Cone> &cones, 
+                    Vector &q_cache, Vector &cache_evals, Vector &cache_evecs, 
+                    Vector &ep_cache, Vector &ed_cache);      
                     
 /**
  * Project onto embedded cone.

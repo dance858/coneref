@@ -249,6 +249,23 @@ Vector prod_cone_Pi(const Vector &x, const std::vector<Cone> &cones,
   return result;
 }
 
+std::vector<Vector> prod_cone_Pi_return_cache(const Vector &x, const std::vector<Cone> &cones, 
+                    Vector &q_cache, Vector &cache_evals, Vector &cache_evecs, 
+                    Vector &ep_cache, Vector &ed_cache){
+
+  std::vector<Vector> return_object;
+
+  Vector proj_x = prod_cone_Pi(x, cones, q_cache, cache_evals, cache_evecs, 
+                              ep_cache, ed_cache);
+  return_object.push_back(x);
+  return_object.push_back(q_cache);
+  return_object.push_back(cache_evals);
+  return_object.push_back(cache_evecs);
+  return_object.push_back(ep_cache);
+  return_object.push_back(ed_cache);
+
+  return return_object;
+}
 
 Vector PSD_Pi(const Vector &x, Vector &cache_evals, Vector &cache_evecs){
 
