@@ -55,4 +55,7 @@ PYBIND11_MODULE(_coneref, m) {
   m.def("Q_operator", &Q_operator);
   m.def("refine", &refine);
 
+  m.def("matrix_from_lower_triangular", &matrix_from_lower_triangular);
+  m.def("lower_triangular_from_matrix", &lower_triangular_from_matrix);
+
 }
