@@ -100,8 +100,8 @@ The function modifies the object `prob` in the following way: `TODO`
 The refinement algorithm can often produce a more accurate solution with just a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf) for empirical results.
 
 ### Acknowledgements
-`TODO` Some code has been modified from ... 
-Also add tests.
+Small parts of the code has been modified from [`diffcp`](https://github.com/cvxgrp/diffcp). We greatly acknowledge their contribution. 
+
 
 ### Citing
 If you find this package useful, consider citing the following works.
