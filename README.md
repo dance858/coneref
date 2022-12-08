@@ -93,9 +93,6 @@ Here the arguments are defined as follows.
 * `verbose_ref1` - If true the refinement algorithm outputs the norm of the KKT-residuals/infeasibility certificates.
 * `verbose_ref2` - If true the refinement algorithm outputs the norm of the normalized residual map. This option is mainly for developers.
 
-The function modifies the object `prob` in the following way: `TODO`
-
-
 ### How well does it work?
 The refinement algorithm can often produce a more accurate solution with just a small additional cost, see Section 4 of [refinement_theory_note.pdf](https://github.com/dance858/coneref/blob/main/refinement_theory_note.pdf) for empirical results.
 
